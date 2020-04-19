@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- Material Kit CSS -->
     <link href="/admin/assets/css/material-dashboard.css" rel="stylesheet" />
+    <style>
+        button,h4,span,option,h2,h3,p,input,a {Font-family: 'Comfortaa', cursive;}
+    </style>
 </head>
 
 <body class="dark-edition">
@@ -29,35 +32,29 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li class="nav-item active  ">
-                    <a class="nav-link" href="javascript:void(0)">
-                        <i class="material-icons">dashboard</i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">
+                <li class="nav-item <%=active[0]%>">
+                    <a class="nav-link" href="/admin/personalsettings">
                         <i class="material-icons">person_add</i>
                         <p>Personal Settings</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">
+                <li class="nav-item <%=active[1]%>">
+                    <a class="nav-link" href="/admin/fishsettings">
                         <i class="material-icons">person_add</i>
                         <p>Fish settings</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">
+                <li class="nav-item <%=active[2]%>">
+                    <a class="nav-link" href="/admin/sectionsettings">
                         <i class="material-icons">widgets</i>
                         <p>Sections Settings</p>
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">
+                <li class="nav-item <%=active[3]%>">
+                    <a class="nav-link" href="/admin/fishcategory">
                         <i class="material-icons">person_add</i>
-                        <p>Add new fish</p>
+                        <p>Add new fish category</p>
                     </a>
                 </li>
             </ul>
@@ -135,21 +132,28 @@
                             </div>
                             <div class="card-body">
                                 <form >
-
+                                    <div class="row">
                                         <% var counter = 0; for (var key in writes[0]) { %>
+                                    <% counter++; %>
+                                            <%if (key ==='_id'){%>
+                                            <%continue;%>
+                                            <%}%>
+                                    <% if (counter == 3) { %>
 
-                                            <div class="row">
-                                                    <div class="col-md-12">
+
+                                                     <% } %>
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="bmd-label-floating"><%=key;%></label>
-                                                            <input type="text" class="form-control" >
+                                                            <input type="text" name="<%=key;%>"  class="form-control" >
                                                         </div>
                                                     </div>
+
                                         <% } %>
 
-                                    <button type="submit" name="addnew" href="/admin" formmethod="post" class="btn btn-primary pull-right">Add new Personal</button>
+                                    <button type="submit" name="addnew" href="/admin" formmethod="post" class="btn btn-primary pull-left">Add new Personal</button>
 
-
+                                       </div>
 
                                 </form>
                             </div>
@@ -189,28 +193,50 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class=" text-primary">
-                                <% for (var key in writes[0]) { %>
+                                <%for (var key in writes[0]) { %>
+
+                                <%if (key ==='_id'){%>
+                                <%continue;%>
+                                <%}%>
                                 <th>
                                     <%=key%>
                                 </th>
 
                                 <% }; %>
+                                <th>
+
+                                </th>
                                 </thead>
                                 <tbody>
                                 <tr>
                                 <%writes.forEach(function(write){ %>
                                 <tr>
                                     <input type="hidden" name="id" value="<%=write._id;%>">
-                                    <% for (var key in write) { %>
+                                    <% var counter= 0; for (var key in write) { %>
+                                        <%counter++;%>
+                                        <%if (key ==='_id'){%>
+                                        <%continue;%>
+                                        <%}%>
                                     <td><input type="text" name="<%=key;%>" class="form-control" value="<%=write[key];%>"></td>
+
+                                    <%if (counter === Object.keys(write).length){%>
+                                        <td >
+                                            <button type="submit" rel="tooltip" formmethod="post" name="del" value="<%=write._id;%>" title="Remove" class="btn btn-white btn-link btn-sm">
+                                                <i class="material-icons">close</i>
+                                            </button>
+                                        </td>
+                                    <%}%>
                                     <% }; %>
+
                                 </tr>
+
                                 <% }); %>
+
                                 </tr>
                                 </tbody>
                             </table>
                            </div>
-                            <button type="submit" href="/admin" name="edit" formmethod="post" class="btn btn-primary pull-right">Add new Personal</button>
+                            <button type="submit" name="edit" formmethod="post" class="btn btn-primary pull-right">Add new Personal</button>
                         </form>
                     </div>
                     </form>
