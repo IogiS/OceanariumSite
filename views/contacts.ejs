@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="stylesheets/bootstrap.css">
     <link rel="stylesheet" href="stylesheets/fonts.css">
     <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <style>
         button,h4,span,option,h2,h3,p,input,a {Font-family: 'Comfortaa', cursive;}
     </style>
@@ -124,7 +125,7 @@
                 <div class="col-md-9 col-lg-7">
                     <h3>Get in Touch</h3>
                     <!-- RD Mailform-->
-                    <form class="rd-form rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+                    <form class="rd-form rd-mailform" data-form-output="form-output-global"  method="post" action="/contacts">
                         <div class="form-wrap">
                             <input class="form-input" id="contact-name" type="text" name="name" data-constraints="@Required">
                             <label class="form-label" for="contact-name">Your Name</label>
@@ -182,9 +183,14 @@
     </footer>
 </div>
 <div class="snackbars" id="form-output-global"></div>
+
+<script type="text/javascript">
+    $(document).ready(function(jQuery){
+        $("#contact-phone").mask("380999999999");
+    });
+</script>
 <script src="javascripts/core.min.js"></script>
 <script src="javascripts/script.js"></script>
-<script src="javascripts/jquery.maskedinput.min.js"></script>
 <script src="javascripts/jquery.maskedinput.js"></script>
 </body>
 </html>

@@ -13,12 +13,32 @@ const mongoClient = new MongoClient(url, { useNewUrlParser: true });
 router.get('/', function(req, res, next) {
   res.render('index' , {title: "Oceanarium"});
 });
+
 router.get('/about', function(req, res, next) {
   res.render('about' , {title: "About"});
 });
+
 router.get('/contacts', function(req, res, next) {
   res.render('contacts' , {title: "Contacts"});
 });
+
+router.post('/contacts', function(req, res, next) {
+    mongoClient.connect(function(err, client) {
+        var ObjectID = require('mongodb').ObjectID;
+        const db = client.db("Oceanarium");
+        const collection = db.collection("contact");
+
+        if (err) return console.log(err);
+        console.log(req.body);
+        delete req.body['form-type'];
+        delete req.body['counter'];
+            collection.insertOne(req.body);
+            console.log(req.body);
+
+    });
+    res.redirect("/contacts");
+});
+
 router.get('/about', function(req, res, next) {
   res.render('about' , {title: "About"});
 });
@@ -293,6 +313,75 @@ router.post('/admin/fishcategory', function(req, res, next) {
 
 
         res.redirect("/admin/fishcategory")
+    });
+});
+
+router.get('/admin/contactsettings', function(req, res, next) {
+    mongoClient.connect(function(err, client){
+
+        const db = client.db("Oceanarium");
+        const collection = db.collection("contact");
+        const active = ['','','','','active'];
+        if(err) return console.log(err);
+
+        collection.find().toArray(function(err, results){
+
+            res.render("CreateUser", {title: "Contacts Settings" , writes: results , active: active});
+            //console.log(results);
+
+        });
+    });
+
+
+
+});
+
+router.post('/admin/contactsettings', function(req, res, next) {
+    //console.log(req.body)
+    mongoClient.connect(function(err, client){
+        var ObjectID = require('mongodb').ObjectID;
+        const db = client.db("Oceanarium");
+        const collection = db.collection("contact");
+
+        if(err) return console.log(err);
+        console.log(req.body);
+
+
+        if('addnew' in req.body){
+            console.log(req.body);
+            delete req.body['addnew'];
+
+            collection.insertOne(req.body);
+            console.log(req.body);
+        }
+
+
+
+        if('edit' in req.body){
+            var count = Object.keys(req.body.id).length;
+            for(var i=0;i<count; i++){
+                delete req.body['edit'];
+                console.log(req.body);
+                collection.updateOne(
+                    {_id : ObjectID(req.body.id[i])},
+                    {$set: {name : req.body.name[i] ,
+                            email : req.body.email[i],
+                            phone : req.body.phone[i],
+                            message : req.body.message[i]
+                            }},
+                    {upsert: true}
+
+                );
+            }
+        }
+        if('del' in req.body) {
+            console.log(req.body.del);
+            collection.removeOne(
+                {_id : ObjectID(req.body.del)})
+        }
+
+
+        res.redirect("/admin/contactsettings")
     });
 });
 

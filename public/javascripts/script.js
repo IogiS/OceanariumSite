@@ -930,7 +930,7 @@
 
 								$.ajax({
 									method: "POST",
-									url: "bat/reCaptcha.php",
+									url: "/contact",
 									data: {'g-recaptcha-response': captchaToken},
 									async: false
 								})
@@ -997,7 +997,7 @@
 							grecaptcha.reset();
 						}
 
-						result = result.length === 5 ? result : 'MF255';
+						result = result.length === 5 ? result : 'MF000';
 						output.text(msg[result]);
 
 						if (result === "MF000") {
