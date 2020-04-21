@@ -76,7 +76,7 @@
     <section class="section-transform-top">
       <div class="container">
         <div class="box-booking">
-          <form class="rd-form rd-mailform booking-form">
+          <form class="rd-form rd-mailform booking-form" method="post" action="/">
             <div>
               <p class="booking-title">Name</p>
               <div class="form-wrap">
@@ -100,20 +100,20 @@
             <div>
               <p class="booking-title">no. of people</p>
               <div class="form-wrap">
-                <select data-placeholder="2">
+                <select name="PeopleCount" data-placeholder="2">
                   <option label="placeholder"></option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
+                  <option >1</option>
+                  <option name="2">2</option>
+                  <option name="3">3</option>
+                  <option name="4">4</option>
+                  <option name="5">5</option>
+                  <option name="6">6</option>
+                  <option name="7">7</option>
                 </select>
               </div>
             </div>
             <div>
-              <button class="button button-lg button-gray-600" type="submit">Check availability</button>
+              <button class="button button-lg button-gray-600"  formmethod="post"  type="submit">Check availability</button>
             </div>
           </form>
         </div>

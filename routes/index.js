@@ -112,7 +112,28 @@ router.post('/admin/personalsettings', function(req, res, next) {
 
   res.redirect("/admin/personalsettings")
 });
+
+
+
 });
+router.post('/', function(req, res, next) {
+    console.log(req.body);
+    mongoClient.connect(function(err, client) {
+        var ObjectID = require('mongodb').ObjectID;
+        const db = client.db("Oceanarium");
+        const collection = db.collection("BuyTickets");
+
+        if (err) return console.log(err);
+        console.log(req.body);
+        delete req.body['form-type'];
+        delete req.body['counter'];
+        collection.insertOne(req.body);
+        console.log(req.body);
+
+    });
+    res.redirect("/");
+});
+
 
 router.get('/admin/fishsettings', function(req, res, next) {
     mongoClient.connect(function(err, client){
